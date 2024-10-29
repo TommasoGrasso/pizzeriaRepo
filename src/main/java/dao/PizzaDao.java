@@ -1,18 +1,18 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
-import jakarta.persistence.NoResultException;
-//import model.Pizza;
-import model.User;
 import model.Impasto;
 import model.Ingrediente;
 import model.Pizza;
-
-import java.util.ArrayList;
-import java.util.List;
+//import model.Pizza;
+import model.User;
 
 public class PizzaDao {
 	private EntityManagerFactory emf;
@@ -175,5 +175,34 @@ public class PizzaDao {
 		}
 		return ingredienti;
 	}
+	
+	public List<Pizza> getAllPizze() {
+	    EntityManager em = emf.createEntityManager();
+	    List<Pizza> pizze = new ArrayList<>();
+	    try {
+	        pizze = em.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        em.close();
+	    }
+	    return pizze;
+	}
+	
+	
+
+	public Pizza getPizzaById(Long id) {
+	    EntityManager em = emf.createEntityManager();
+	    Pizza pizza = null;
+	    try {
+	        pizza = em.find(Pizza.class, id);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        em.close();
+	    }
+	    return pizza;
+	}
+
 
 }
