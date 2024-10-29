@@ -37,7 +37,7 @@ public class IngredienteService {
     public String createIngrediente(IngredienteDTO ingredienteDTO) {
         Ingrediente ingrediente = convertToEntity(ingredienteDTO);
         ingredienteDao.saveIngrediente(ingrediente);
-        return "Ingrediente created successfully";
+        return "Ingrediente Creato";
     }
 
     @PUT
@@ -47,14 +47,14 @@ public class IngredienteService {
         ingredienteDTO.setId(id);
         Ingrediente ingrediente = convertToEntity(ingredienteDTO);
         ingredienteDao.updateIngrediente(ingrediente);
-        return "Ingrediente updated successfully";
+        return "Ingrediente Aggiornato";
     }
 
     @DELETE
     @Path("/{id}")
     public String deleteIngrediente(@PathParam("id") int id) {
         ingredienteDao.deleteIngrediente(id);
-        return "Ingrediente deleted successfully";
+        return "Ingrediente Cancellato";
     }
 
     private IngredienteDTO convertToDTO(Ingrediente ingrediente) {

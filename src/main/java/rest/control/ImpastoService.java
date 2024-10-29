@@ -37,7 +37,7 @@ public class ImpastoService {
     public String createImpasto(ImpastoDTO impastoDTO) {
         Impasto impasto = convertToEntity(impastoDTO);
         impastoDao.saveImpasto(impasto);
-        return "Impasto created successfully";
+        return "Impasto creato";
     }
 
     @PUT
@@ -47,14 +47,14 @@ public class ImpastoService {
         impastoDTO.setId(id);
         Impasto impasto = convertToEntity(impastoDTO);
         impastoDao.updateImpasto(impasto);
-        return "Impasto updated successfully";
+        return "Impasto aggiornato";
     }
 
     @DELETE
     @Path("/{id}")
     public String deleteImpasto(@PathParam("id") int id) {
         impastoDao.deleteImpasto(id);
-        return "Impasto deleted successfully";
+        return "Impasto cancellato"; 
     }
 
     private ImpastoDTO convertToDTO(Impasto impasto) {

@@ -39,7 +39,7 @@ public class UserService {
     public String createUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         userDao.saveUser(user);
-        return "User created successfully";
+        return "User creato";
     }
 
     @PUT
@@ -49,14 +49,14 @@ public class UserService {
         userDTO.setId(id);
         User user = convertToEntity(userDTO);
         userDao.updateUser(user);
-        return "User updated successfully";
+        return "User aggiornato";
     }
 
     @DELETE
     @Path("/{id}")
     public String deleteUser(@PathParam("id") int id) {
         userDao.deleteUser(id);
-        return "User deleted successfully";
+        return "User cancellato";
     }
 
     // si usa dto per evitare di mandare troppi dati e non esporre informazionii
