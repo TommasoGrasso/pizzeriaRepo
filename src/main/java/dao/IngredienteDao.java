@@ -16,7 +16,7 @@ public class IngredienteDao {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(ingrediente);
+            em.merge(ingrediente);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
