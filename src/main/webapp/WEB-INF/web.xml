@@ -8,7 +8,7 @@
 
     <display-name>RESTful CRUD Pizzeria</display-name>
 
-    <servlet>
+<!--     <servlet>
         <servlet-name>jerseyServlet</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
         <init-param>
@@ -20,7 +20,21 @@
     <servlet-mapping>
         <servlet-name>jerseyServlet</servlet-name>
         <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping> -->
+    
+        <servlet>
+        <servlet-name>userService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <init-param>
+            <param-name>serviceClass</param-name>
+            <param-value>web.service.UserServiceImpl</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>userService</servlet-name>
+        <url-pattern>/UserService</url-pattern>
+    </servlet-mapping>
 
 </web-app>
