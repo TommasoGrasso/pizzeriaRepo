@@ -19,7 +19,7 @@ import model.User;
 @Stateless 
 public class PizzaDao {
 
-	 @PersistenceContext(unitName = "PIZZERIA-0.0.1-SNAPSHOT")
+	 @PersistenceContext
 	 private EntityManager em;
 
 	    public void savePizza(String pizzaName, String impastoId, int userId, String[] ingredienti) {

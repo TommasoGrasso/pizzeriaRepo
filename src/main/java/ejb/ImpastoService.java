@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/impasti")
+@Path("/impasto")
 public class ImpastoService {
 //    private ImpastoDao impastoDao = new ImpastoDao();
 	
