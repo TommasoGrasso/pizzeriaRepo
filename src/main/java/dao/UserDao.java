@@ -4,6 +4,7 @@ import model.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 //import javax.persistence.EntityManagerFactory;
 //import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
@@ -17,6 +18,21 @@ public class UserDao {
 	 private EntityManager em;
 //    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("PIZZERIA");
 
+	 public User authenticateUser(String username, String password) {
+	        try {
+	            User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+	                          .setParameter("username", username)
+	                          .setParameter("password", password)
+	                          .getSingleResult();
+	            return user;
+	        } catch (NoResultException e) {
+	            return null;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
+	 
     public void saveUser(User user) {
     	em.persist(user);
 //        EntityManager em = emf.createEntityManager();
