@@ -13,7 +13,7 @@ import java.util.List;
 @Stateless 
 public class ImpastoDao {
 	
-	 @PersistenceContext(unitName = "PIZZERIA")
+	 @PersistenceContext(unitName = "PIZZERIA-0.0.1-SNAPSHOT")
 	 private EntityManager em;
 //    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("PIZZERIA");
 

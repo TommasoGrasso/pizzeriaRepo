@@ -16,8 +16,6 @@ import javax.persistence.Version;
 @Table(name = "ingrediente")
 public class Ingrediente {
 
-    @Version
-    private Integer version;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -62,11 +60,4 @@ public class Ingrediente {
 	public void setPizze(List<Pizza> pizze) {
 		this.pizze = pizze;
 	}
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
 }
