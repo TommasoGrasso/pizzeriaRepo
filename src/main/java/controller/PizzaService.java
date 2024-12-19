@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import model.*;
+import repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +26,11 @@ public class PizzaService {
     @Autowired
     private IngredienteRepository ingredienteRepository;
 
-    // Metodo per autenticare un utente
     public User authenticateUser(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    // Metodo per salvare una pizza
     public void savePizza(String pizzaName, String impastoId, int userId, String[] ingredienti) {
-        // Troviamo l'impasto e l'utente dal database
         Impasto impasto = impastoRepository.findById(Long.parseLong(impastoId)).orElse(null);
         User user = userRepository.findById((long) userId).orElse(null);
 
@@ -50,24 +48,20 @@ public class PizzaService {
                 }
             }
 
-            // Salviamo la pizza
             pizzaRepository.save(pizza);
         } else {
             System.err.println("Errore: Impasto o Utente non trovato.");
         }
     }
 
-    // Metodo per ottenere tutte le pizze di un utente
     public List<Pizza> getPizzeByUser(int userId) {
         return pizzaRepository.findByUserId(userId);
     }
 
-    // Metodo per eliminare una pizza
     public void deletePizzaById(Long id) {
         pizzaRepository.deleteById(id);
     }
 
-    // Metodo per aggiornare una pizza
     public void updatePizza(Long pizzaId, String nuovoNome, String nuovoImpastoId, String[] nuoviIngredienti) {
         Pizza pizza = pizzaRepository.findById(pizzaId).orElse(null);
         if (pizza != null) {
@@ -100,7 +94,6 @@ public class PizzaService {
         return impastiList;
     }
 
-    // Metodo per ottenere tutti gli ingredienti
     public Iterable<Ingrediente> getAllIngredienti() {
         return ingredienteRepository.findAll();
     }

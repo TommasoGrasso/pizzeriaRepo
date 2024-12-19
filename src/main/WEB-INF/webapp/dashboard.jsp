@@ -36,6 +36,7 @@
 <body>
     <h2 class="ttl">PIZZERIA</h2>
 
+    <!-- Form per il salvataggio della pizza -->
     <form action="dashboard" method="post">
         <div class="form">
             <div>
@@ -83,8 +84,13 @@
 
         <h3>Nome Pizza:</h3>
         <input type="text" name="pizzaName" /><br> 
-        <input type="submit" value="savePizza" />
+        <input type="submit" value="Salva Pizza" />
     </form>
+
+    <!-- Messaggio di avviso per ingredienti o impasto mancanti -->
+    <c:if test="${not empty avviso}">
+        <p style="color: red;">${avviso}</p>
+    </c:if>
 
     <h3>Pizze Selezionate:</h3>
     <table>

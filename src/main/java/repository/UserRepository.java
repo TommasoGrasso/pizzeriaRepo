@@ -1,4 +1,4 @@
-package controller;
+package repository;
 
 
 import org.springframework.data.jpa.repository.Query;

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
  
 @Configuration
-@ComponentScan(basePackages = "controller")
+@ComponentScan(basePackages = "controller, repository")
 public class WebMvcConfig {
     @Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {

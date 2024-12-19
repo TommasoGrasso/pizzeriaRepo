@@ -1,10 +1,13 @@
 package controller;
 
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import model.*;
 
 @Controller
@@ -14,45 +17,59 @@ public class PizzeriaController {
     private PizzaService pizzaService;
 
     @RequestMapping("/login")
-    public ModelAndView login(String username, String password) {
-        ModelAndView modelAndView = new ModelAndView();
-        
+    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         // Autenticazione dell'utente
         User user = pizzaService.authenticateUser(username, password);
         
         if (user != null) {
-            // Se l'autenticazione ha successo, si redirige alla dashboard
-            modelAndView.setViewName("dashboard.jsp");
-            modelAndView.addObject("user", user); // Aggiungi l'oggetto user al modello
+            session.setAttribute("user", user); // Store user in session
+            model.addAttribute("user", user); 
+            return "dashboard"; // Return the dashboard view
         } else {
-            // Se l'autenticazione fallisce, ritorna alla pagina di login con errore
-            modelAndView.setViewName("login.jsp");
-            modelAndView.addObject("error", "Credenziali errate, riprova.");
+            model.addAttribute("error", "Credenziali errate, riprova.");
+            return "login"; // Return the login view
         }
-        
-        return modelAndView;
     }
     
-    @RequestMapping("/dashboard")
-    public ModelAndView dashboard(HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        // Recupera l'utente dalla sessione
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String dashboard(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-
+        
         if (user != null) {
-            // Se l'utente è autenticato, visualizza la dashboard
-            modelAndView.setViewName("dashboard.jsp");
-            modelAndView.addObject("user", user);
-            modelAndView.addObject("pizze", pizzaService.getPizzeByUser(user.getId()));
-            modelAndView.addObject("impasti", pizzaService.getAllImpasti());
-            modelAndView.addObject("ingredienti", pizzaService.getAllIngredienti());
+            model.addAttribute("user", user);
+            model.addAttribute("pizze", pizzaService.getPizzeByUser(user.getId()));
+            model.addAttribute("impasti", pizzaService.getAllImpasti());
+            model.addAttribute("ingredienti", pizzaService.getAllIngredienti());
+            return "dashboard"; // Show the dashboard page
         } else {
-            // Se l'utente non è autenticato, redirigi alla pagina di login
-            modelAndView.setViewName("login.jsp");
-            modelAndView.addObject("error", "Sessione scaduta, effettua il login.");
+            model.addAttribute("error", "Sessione scaduta, effettua il login.");
+            return "login"; // Redirect to login if the session is expired
         }
+    }
 
-        return modelAndView;
+    @RequestMapping(value = "/dashboard", method = RequestMethod.POST)
+    public String savePizza(@RequestParam String pizzaName, @RequestParam String impastoId, 
+                            @RequestParam(value = "ingredienti", required = false) String[] ingredienti, 
+                            HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        
+        if (user == null) {
+            return "redirect:login"; // Redirect to login if session is invalid
+        }
+        
+        if (impastoId == null || ingredienti == null || ingredienti.length == 0) {
+            model.addAttribute("avviso", "Riempire ingredienti e impasto per salvare la pizza.");
+            model.addAttribute("impasti", pizzaService.getAllImpasti());
+            model.addAttribute("ingredienti", pizzaService.getAllIngredienti());
+            model.addAttribute("pizzeUtente", pizzaService.getPizzeByUser(user.getId()));
+            return "dashboard"; // Show the dashboard with the warning
+        }
+        
+        pizzaService.savePizza(pizzaName, impastoId, user.getId(), ingredienti);
+        model.addAttribute("impasti", pizzaService.getAllImpasti());
+        model.addAttribute("ingredienti", pizzaService.getAllIngredienti());
+        model.addAttribute("pizzeUtente", pizzaService.getPizzeByUser(user.getId()));
+        
+        return "dashboard"; // Show the updated dashboard
     }
 }
