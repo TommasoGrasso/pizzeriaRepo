@@ -1,0 +1,13 @@
+config\WebAppInitializer.class
+config\JpaConfig.class
+controller\PizzeriaController.class
+model\Impasto.class
+repository\IngredienteRepository.class
+repository\ImpastoRepository.class
+controller\PizzaService.class
+model\Pizza.class
+repository\UserRepository.class
+config\WebMvcConfig.class
+model\Ingrediente.class
+model\User.class
+repository\PizzaRepository.class

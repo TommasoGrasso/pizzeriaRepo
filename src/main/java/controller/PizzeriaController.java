@@ -22,12 +22,12 @@ public class PizzeriaController {
         User user = pizzaService.authenticateUser(username, password);
         
         if (user != null) {
-            session.setAttribute("user", user); // Store user in session
+            session.setAttribute("user", user); 
             model.addAttribute("user", user); 
-            return "dashboard"; // Return the dashboard view
+            return "dashboard"; 
         } else {
             model.addAttribute("error", "Credenziali errate, riprova.");
-            return "login"; // Return the login view
+            return "login";
         }
     }
     
@@ -40,10 +40,10 @@ public class PizzeriaController {
             model.addAttribute("pizze", pizzaService.getPizzeByUser(user.getId()));
             model.addAttribute("impasti", pizzaService.getAllImpasti());
             model.addAttribute("ingredienti", pizzaService.getAllIngredienti());
-            return "dashboard"; // Show the dashboard page
+            return "dashboard"; 
         } else {
             model.addAttribute("error", "Sessione scaduta, effettua il login.");
-            return "login"; // Redirect to login if the session is expired
+            return "login"; 
         }
     }
 
@@ -54,7 +54,7 @@ public class PizzeriaController {
         User user = (User) session.getAttribute("user");
         
         if (user == null) {
-            return "redirect:login"; // Redirect to login if session is invalid
+            return "redirect:login"; 
         }
         
         if (impastoId == null || ingredienti == null || ingredienti.length == 0) {
@@ -62,7 +62,7 @@ public class PizzeriaController {
             model.addAttribute("impasti", pizzaService.getAllImpasti());
             model.addAttribute("ingredienti", pizzaService.getAllIngredienti());
             model.addAttribute("pizzeUtente", pizzaService.getPizzeByUser(user.getId()));
-            return "dashboard"; // Show the dashboard with the warning
+            return "dashboard";  
         }
         
         pizzaService.savePizza(pizzaName, impastoId, user.getId(), ingredienti);
@@ -70,6 +70,6 @@ public class PizzeriaController {
         model.addAttribute("ingredienti", pizzaService.getAllIngredienti());
         model.addAttribute("pizzeUtente", pizzaService.getPizzeByUser(user.getId()));
         
-        return "dashboard"; // Show the updated dashboard
+        return "dashboard"; 
     }
 }

@@ -15,16 +15,16 @@ import java.util.List;
 public class PizzaService {
 
     @Autowired
-    private UserRepository userRepository;
+    PizzaRepository pizzaRepository;
+    
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
-    private PizzaRepository pizzaRepository;
+    ImpastoRepository impastoRepository;
 
     @Autowired
-    private ImpastoRepository impastoRepository;
-
-    @Autowired
-    private IngredienteRepository ingredienteRepository;
+    IngredienteRepository ingredienteRepository;
 
     public User authenticateUser(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
@@ -40,7 +40,6 @@ public class PizzaService {
             pizza.setImpasto(impasto);
             pizza.setUser(user);
 
-            // Aggiungiamo gli ingredienti
             for (String ingredienteId : ingredienti) {
                 Ingrediente ingrediente = ingredienteRepository.findById(Long.parseLong(ingredienteId)).orElse(null);
                 if (ingrediente != null) {
